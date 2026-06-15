@@ -13,14 +13,21 @@ export function OptionsTable({ options }: { options: OptionPosition[] }) {
         <thead>
           <tr className="border-b border-zinc-800 bg-zinc-900 text-left text-xs uppercase tracking-wide text-zinc-500">
             <th className="px-4 py-3 font-medium">Contract</th>
+            <th className="px-4 py-3 font-medium">Stock price now</th>
             <th className="px-4 py-3 font-medium">Side</th>
             <th className="px-4 py-3 font-medium">Contracts</th>
             <th className="px-4 py-3 font-medium">Avg Premium</th>
             <th className="px-4 py-3 font-medium">Current</th>
-            <th className="px-4 py-3 font-medium">DTE</th>
-            <th className="px-4 py-3 font-medium">Delta</th>
-            <th className="px-4 py-3 font-medium">Theta</th>
-            <th className="px-4 py-3 font-medium">IV</th>
+            <th className="px-4 py-3 font-medium">Days left</th>
+            <th className="px-4 py-3 font-medium" title="How much the option price moves per $1 the stock moves">
+              Delta
+            </th>
+            <th className="px-4 py-3 font-medium" title="How much value this loses per day, just from time passing">
+              Daily decay
+            </th>
+            <th className="px-4 py-3 font-medium" title="Implied volatility: how big a price swing the market expects">
+              Implied move
+            </th>
             <th className="px-4 py-3 font-medium">P&L</th>
           </tr>
         </thead>
@@ -39,13 +46,16 @@ export function OptionsTable({ options }: { options: OptionPosition[] }) {
                     Exp {new Date(option.expiration).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
                   </div>
                 </td>
+                <td className="px-4 py-3 text-zinc-300">
+                  {option.underlyingPrice !== null ? formatCurrency(option.underlyingPrice) : "—"}
+                </td>
                 <td className="px-4 py-3 capitalize text-zinc-300">{option.side}</td>
                 <td className="px-4 py-3 text-zinc-300">{option.contracts}</td>
                 <td className="px-4 py-3 text-zinc-300">{formatCurrency(option.avgPremium)}</td>
                 <td className="px-4 py-3 text-zinc-300">{formatCurrency(option.currentPremium)}</td>
                 <td className="px-4 py-3 text-zinc-300">{daysToExpiration(option.expiration)}</td>
                 <td className="px-4 py-3 text-zinc-300">{option.delta.toFixed(2)}</td>
-                <td className="px-4 py-3 text-zinc-300">{option.theta.toFixed(2)}</td>
+                <td className="px-4 py-3 text-zinc-300">{formatCurrency(option.theta)}</td>
                 <td className="px-4 py-3 text-zinc-300">{(option.iv * 100).toFixed(0)}%</td>
                 <td className={`px-4 py-3 font-medium ${pnlColor(pnl)}`}>{formatSignedCurrency(pnl)}</td>
               </tr>

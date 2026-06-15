@@ -1,6 +1,6 @@
-import { mockProvider } from "@/lib/providers/mock";
+import { liveProvider } from "@/lib/providers/live";
 import type { MarketDataProvider } from "@/lib/types";
 
-// Swap this for a live provider once a real data source is connected.
-// See src/lib/providers/README.md
-export const provider: MarketDataProvider = mockProvider;
+// Live prices/history from Yahoo Finance + your holdings from src/data/holdings.ts.
+// See src/lib/providers/README.md for swapping in a different data source.
+export const provider: MarketDataProvider = liveProvider;

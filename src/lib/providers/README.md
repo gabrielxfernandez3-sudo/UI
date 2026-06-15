@@ -1,15 +1,17 @@
 # Data providers
 
-`mockProvider` (in `mock.ts`) implements `MarketDataProvider` with static
-sample data so the dashboard works without any external connections.
+`liveProvider` (in `live.ts`) is the active provider. It combines:
 
-To wire up live data from TradingView via MCP:
+- **Live prices & history** — fetched from Yahoo Finance (no API key needed),
+  via `quotes.ts`.
+- **Your holdings, watchlist, and journal** — edited by hand in
+  `src/data/holdings.ts`. This is the only file you need to update with your
+  real positions, alerts, and trade notes.
 
-1. Set up the TradingView MCP server in your terminal/Claude Code config.
-2. Create `tradingview.ts` here that implements `MarketDataProvider`,
-   fetching real positions, watchlist, and quotes through that MCP connection
-   (or a small server-side API route that calls it).
-3. In `src/lib/data.ts`, swap the exported `provider` to the new
-   implementation.
+Note: free live options-chain data isn't available, so option premiums
+(`currentPremium` in `holdings.ts`) are entered manually. The underlying
+stock price shown alongside each option *is* live.
 
-No other file needs to change — every page reads through `src/lib/data.ts`.
+To swap to a different source later (e.g. a brokerage or TradingView MCP
+connection), implement `MarketDataProvider` in a new file here and update
+`src/lib/data.ts` to use it. No page needs to change.

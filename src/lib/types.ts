@@ -18,6 +18,7 @@ export interface Position {
 
 export interface OptionPosition {
   underlying: string;
+  underlyingPrice: number | null;
   type: "call" | "put";
   side: "long" | "short";
   strike: number;
